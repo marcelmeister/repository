@@ -19,11 +19,10 @@ public:
 protected:
 	void paintEvent(QPaintEvent *event);
 
-	QPoint WC_to_DC(const QPointF &wc);
-	QPointF DC_to_WC(const QPoint &dc);
+	QPoint  WC_to_DC(const QPointF &wc);
+	QPointF DC_to_WC(const QPoint  &dc);
 
 private:
-	bool initDone;
 	QPointF wMin, wMax;
 };
 

@@ -5,10 +5,9 @@
 
 Canvas::Canvas(QWidget *parent)
 	: QFrame(parent),
-	  wMin(0, 0), 
-	  wMax(1, 1)
+	  wMin(0, 0), wMax(1, 1)
 {
-	initDone = false;
+	setFrameStyle(QFrame::Box);
 }
 
 Canvas::~Canvas()
@@ -32,80 +31,37 @@ void Canvas::setWorld(const QPointF &min, const QPointF &max)
 
 	wMax.rx() = max.x();
 	wMax.ry() = max.y();
-
-	initDone = true;
 }
 
 void Canvas::paintEvent(QPaintEvent *event)
 {
-	QPainter painter(this);
-	QPainterPath pp;
-	QPoint dc;
+	QFrame::paintEvent(event);
 
-	// white background with black border
-	painter.fillRect(QRect(0, 0, width() - 1, height() - 1), Qt::white);
-	painter.setPen(Qt::black);
-	painter.drawRect(QRect(0, 0, width() - 1, height() - 1));
+	// TODO; implement the following drawing functionality!
 
-	if (!initDone)
-		return;
+	// first draw white background 
 	
-	// draw axis of abscissas 
-	dc = WC_to_DC(QPointF(wMin.x(), 0));
-	pp.moveTo(dc);
+	// then draw axis of abscissas 
 
-	dc = WC_to_DC(QPointF(wMax.x(), 0));
-	pp.lineTo(dc);
+	// finally draw sine function
 
-	dc = WC_to_DC(QPointF(0, wMin.y()));
-	pp.moveTo(dc);
-
-	dc = WC_to_DC(QPointF(0, wMax.y()));
-	pp.lineTo(dc);
-
-	painter.setPen(Qt::blue);
-	painter.drawPath(pp);
-
-	// clear old path
-	pp = QPainterPath();
-
-	// now draw sine function
-	const int N = width() / 8;
-
-	float dx = (wMax.x() - wMin.x()) / N;
-	float x = wMin.x(), y = sin(x);
-
-	dc = WC_to_DC(QPointF(x, y));
-	pp.moveTo(dc);
-
-	for (int i = 0; i <= N; i++) {
-		x += dx;
-		y = sin(x);
-
-		dc = WC_to_DC(QPointF(x, y));
-		pp.lineTo(dc);
-	}
-
-	painter.setPen(Qt::red);
-	painter.drawPath(pp);
 }
 
 QPoint Canvas::WC_to_DC(const QPointF &wc)
 {
-	float wx0 = wMin.x(), wx1 = wMax.x();
-	float wy0 = wMin.y(), wy1 = wMax.y();
+	float wx0 = wMin.x(), 
+		  wx1 = wMax.x(), 
+		  wy0 = wMin.y(), 
+		  wy1 = wMax.y();
+	int dx0, dx1, dy0, dy1, x = 0, y = 0;
 
-	int dx0 = 1, dx1 = width() - 2;
-	int dy0 = height() - 2, dy1 = 1;
-
-	int x = (wc.x() - wx0) / (wx1 - wx0) * (dx1 - dx0) + dx0;
-	int y = (wc.y() - wy0) / (wy1 - wy0) * (dy1 - dy0) + dy0;
+	// TODO; calculate window-viewport transformation for point (x, y)!
 
 	return QPoint(x, y);
 }
 
 QPointF Canvas::DC_to_WC(const QPoint &dc)
 {
-	// TODO
+	// TODO; calculate inverse transform (optional)
 	return QPointF(0, 0);
 }

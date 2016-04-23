@@ -2,17 +2,20 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QGridLayout>
-#include <stdio.h>
 
 #include "sinus.h"
 #include "canvas.h"
 
+
+/** c'tor */
 Sinus::Sinus(QWidget *parent)
 	: QWidget(parent)
 {
+	// instantiate Canvas and button
 	viewport = new Canvas();
 	btnDrawSin = new QPushButton("&Draw Sinus");
 
+	// instantiate elements for setting world window
 	ledMinX = new QLineEdit("0");
 	lblMinX = new QLabel("World MinX");
 	lblMinX->setBuddy(ledMinX);
@@ -29,6 +32,7 @@ Sinus::Sinus(QWidget *parent)
 	lblMaxY = new QLabel("World MaxY");
 	lblMaxY->setBuddy(ledMaxY);
 
+	// create layout and add gui elements to it
 	QGridLayout *mainLayout = new QGridLayout;
 	mainLayout->setColumnStretch(0, 3);
 
@@ -43,15 +47,19 @@ Sinus::Sinus(QWidget *parent)
 	mainLayout->addWidget(ledMaxY, 5, 2);
 	mainLayout->addWidget(btnDrawSin, 7, 1, 1, 2, Qt::AlignRight);
 
+	// add layout to this widget instance
 	setLayout(mainLayout);
 	
+	// connect button click event to draw handler
 	connect(btnDrawSin, SIGNAL(clicked()), this, SLOT(drawBtnPressed()));
 }
 
+/** d'tor */
 Sinus::~Sinus()
 {
 }
 
+/** method for handling button clicked event */
 void Sinus::drawBtnPressed()
 {
 	QPointF min, max;
@@ -62,10 +70,9 @@ void Sinus::drawBtnPressed()
 	max.setX(ledMaxX->text().toFloat());
 	max.setY(ledMaxY->text().toFloat());
 
+	// update world window in canvas instance
 	viewport->setWorld(min, max);
 
+	// force redraw
 	update();
-
-	printf("Button wurde gedrueckt, Welt: %f, %f bis %f, %f!\n", 
-		min.x(), min.y(), max.x(), max.y());
 }
