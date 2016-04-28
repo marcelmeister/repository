@@ -45,7 +45,6 @@ desktop.ini
 *.iobj
 *.ipdb
 *.filters
-*.vcxproj
 *.idb
 *.tlog
 *.tlog/
