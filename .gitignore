@@ -3,7 +3,7 @@
 *.tmproj
 *.bak
 *.pyc
-*.db
+#*.db
 *~backup~
 *~
 #*#
