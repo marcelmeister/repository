@@ -18,7 +18,5 @@ Hinweis für Mac-User
 Hinweis für Windows-User
 ------------------------------------------------------------------------------
 
-* Achtung: Generierte Project-Files (db, sln, etc.) nur Notlösung für 
-  Rechte-Problem im MediaLab, werden wieder gelöscht!
-* Alternativ Project-Files auf Kommandozeile im Ordner mit .pro File erzeugen:
+* Project-Files alternativ auf Kommandozeile im Ordner mit Pro-File erzeugbar:
   qmake -spec win32-msvc2015 -tp vc
